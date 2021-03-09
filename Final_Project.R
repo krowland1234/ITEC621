@@ -72,7 +72,7 @@ JetsETF$Date <- as.Date(JetsETF$Date, "%m/%d/%Y")
 names(FunETF) <- gsub(" ", "_", names(FunETF))
 names(JetsETF) <- gsub(" ", "_", names(JetsETF))
 
-
+#plot daily change in covid cases & daily change in ETF prices, as a %
 ggplot(NULL, aes(x, y)) +
   geom_line(data = Covid_bydate, aes(x = ObservationDate, y = dailychange, colour = "Covid"), size = 1) +
   geom_line(data = FunETF, aes(x = Date, y = Daily_Return, colour = "FunETF"), size = 1) + 
