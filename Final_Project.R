@@ -38,13 +38,12 @@ View(Covid)
 Covid$ObservationDate <- as.Date(Covid$ObservationDate, "%m/%d/%Y")
 class(Covid$ObservationDate)
 
-#groupby Covid$
-
+# Take Covid dataset and groupby date
 Covid_bydate <- Covid %>% 
   group_by(ObservationDate) %>%
   summarise(total_case = sum(Confirmed))
 
-#visualize rise in Covid-19 cases worldwide with simple line plot
+# visualize rise in Covid-19 cases worldwide with simple line plot
 ggplot(data = Covid_bydate, aes(x = ObservationDate, y = total_case)) +
   geom_line(color = "red", linetype = "dashed") +
   scale_y_continuous(name = "Confirmed Cases", labels = scales::comma) + 
@@ -52,11 +51,11 @@ ggplot(data = Covid_bydate, aes(x = ObservationDate, y = total_case)) +
   ggtitle("Total Confirmed Covid-19 Cases Worldwide")
 
 
-#plot new cases everyday ((n cases) - (n-1 cases))
+# plot % new cases everyday ((n cases) - (n-1 cases)) / (n-1 cases) ***n = day
 Covid_bydate$dailychange <- (Covid_bydate$total_case - lag(Covid_bydate$total_case)) / lag(Covid_bydate$total_case)
 
 
-#visualize Covid-19 daily rate change 
+# visualize Covid-19 daily rate change 
 ggplot(data = Covid_bydate, aes(x = ObservationDate, y = dailychange)) +
   geom_line(color = "red", linetype = "solid") +
   scale_y_continuous(name = "Confirmed Cases % Change", labels = scales::comma) + 
@@ -64,11 +63,11 @@ ggplot(data = Covid_bydate, aes(x = ObservationDate, y = dailychange)) +
   ggtitle("Covid-19 Cases % Change")
 
 
-#take ETF data and change date column to date  
+#take ETF data and change date column from character to date format 
 FunETF$Date <- as.Date(FunETF$Date, "%m/%d/%Y")
 JetsETF$Date <- as.Date(JetsETF$Date, "%m/%d/%Y")
 
-#replace ETF name spaces with underscores 
+#replace ETF column name spaces with underscores 
 names(FunETF) <- gsub(" ", "_", names(FunETF))
 names(JetsETF) <- gsub(" ", "_", names(JetsETF))
 
